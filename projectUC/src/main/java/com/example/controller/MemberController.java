@@ -111,7 +111,7 @@ public class MemberController {
         }
         
         session.setAttribute("member", lvo);             // 일치하는 아이디, 비밀번호 경우 (로그인 성공)
-        return "redirect:/main";
+        return "redirect:/carlist/search";
     }
     
     /* 로그아웃 */
@@ -124,7 +124,7 @@ public class MemberController {
         
         session.invalidate();
         
-        return "redirect:/main";
+        return "redirect:/carlist/search";
     }
 	
 	

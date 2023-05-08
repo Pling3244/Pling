@@ -38,10 +38,10 @@ public class HomeController {
 	}
 	@RequestMapping(value = "main", method = RequestMethod.GET)
 	public void goosTotalGET(Criteria cri, Model model) {
-		System.out.println("cri:"+ cri );
+		
 		int total = service.goodsGetTotal(cri);
 		model.addAttribute("total", total);
-		System.out.println("aa : " + total);
+	
 	}
 }
 

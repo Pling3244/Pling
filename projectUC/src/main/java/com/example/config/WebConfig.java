@@ -41,7 +41,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
 		registration.setInitParameter("throwExceptionIfNoHanderFound", "true");
 		MultipartConfigElement multipartConfig =
-				new MultipartConfigElement("C:\\Users\\admin\\git\\test\\projectUC\\src\\main\\webapp\\resources\\upload",
+				new MultipartConfigElement("C:\\Users\\admin\\git\\project\\projectUC\\src\\main\\webapp\\resources\\upload",
 						20971520,
 						41943040,
 						20971520);

@@ -233,6 +233,10 @@
 <!--                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> -->
 <!--                                     Activity Log -->
 <!--                                 </a> -->
+								<a class="dropdown-item" href="/carlist/search">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    My Regist
+                                </a>
                                 <a class="dropdown-item" href="/carlist/carRegist">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Car Regist

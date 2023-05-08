@@ -18,8 +18,12 @@
         <div id="content-wrapper" class="d-flex flex-column">
             
             <%@ include file="./include/content.jsp" %>
-            <h1>현재 판매등록 차량 ${total}</h1>
-            <div style="display: flex"; "justify-content: center";>
+            <div style="text-align : center">
+            <a style="display:inline; font-size:4em">현재 판매등록 차량 '</a>
+            <a style="display:inline; font-size:6em"><b>${total}</b></a>
+            <a style="display:inline; font-size:4em;"> ' 대</a>
+            </div>
+            <div style="display: flex; justify-content: center">
             <img src="/resources/img/car.png"/>
 			</div>	
 			

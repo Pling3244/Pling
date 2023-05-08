@@ -227,7 +227,7 @@ public class CarController {
 			}
 		}
 
-		String uploadFolder = "C:\\Users\\admin\\git\\test\\projectUC\\src\\main\\webapp\\resources\\upload";
+		String uploadFolder = "C:\\Users\\admin\\git\\project\\projectUC\\src\\main\\webapp\\resources\\upload";
 
 		/* 날짜 폴더 경로 */
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -303,7 +303,7 @@ public class CarController {
 		logger.info("getImage()........" + fileName);
 
 		File file = new File(
-				"C:\\Users\\admin\\git\\test\\projectUC\\src\\main\\webapp\\resources\\upload\\" + fileName);
+				"C:\\Users\\admin\\git\\project\\projectUC\\src\\main\\webapp\\resources\\upload\\" + fileName);
 
 		ResponseEntity<byte[]> result = null;
 
@@ -332,7 +332,7 @@ public class CarController {
 		
 		try {
 			/* 썸네일 파일 삭제 */
-			file = new File("C:\\\\Users\\\\admin\\\\git\\\\test\\\\projectUC\\\\src\\\\main\\\\webapp\\\\resources\\\\upload\\\\" + URLDecoder.decode(fileName, "UTF-8"));
+			file = new File("C:\\\\Users\\\\admin\\\\git\\\\project\\\\projectUC\\\\src\\\\main\\\\webapp\\\\resources\\\\upload\\\\" + URLDecoder.decode(fileName, "UTF-8"));
 			
 			file.delete();
 			
