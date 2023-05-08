@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.example.mapper.CarMapper">
+
+	<select id="getList" resultType="com.example.domain.CarVO">
+	<![CDATA[
+		select * from uc_car
+	]]>
+	</select>
+	
+	<insert id="insert">
+	
+		<selectKey resultType="int" keyProperty="num" order="AFTER">
+  		
+  			SELECT MAX(num) FROM uc_car
+  		
+  		</selectKey> 			
+		insert into
+			uc_car (cop_name, br_name, car_name, price, mileage, model_year, fuel_type, color, region, number_p, seller, num, uc_text, owner)
+		values
+			(#{cop_name}, #{br_name}, #{car_name}, #{price}, #{mileage}, #{model_year}, #{fuel_type}, #{color}, #{region}, #{number_p}, #{seller}, SEQ_NUM.nextval, #{uc_text}, #{owner})
+	    </insert>
+	
+	<!-- 이미지 등록 -->
+	<insert id="imageEnroll">
+	
+		insert into uc_image(num, fileName, uploadPath, uuid) values (#{num}, #{fileName}, #{uploadPath}, #{uuid})
+	
+	</insert>
+
+	<!-- 상품 리스트 -->
+  	<select id="goodsGetList" resultType="com.example.domain.CarVO">  		  
+				
+		<![CDATA[			
+		select * from (
+		select /*+INDEX_DESC(uc_car SYS_C007165)*/ rownum as rn,
+		(select cateName from uc_cate where uc_car.cop_name = uc_cate.cateCode) copName, 
+		(select cateName from uc_cate where uc_car.br_name = uc_cate.cateCode) brName, 
+		car_name, price, mileage, model_year, fuel_type, color,
+		region, number_p, owner, uc_text, seller, num,
+		to_char(regdate, 'yyyy/mm/dd') as regdate1,
+		to_char(updatedate, 'yyyy/mm/dd') as updatedate1
+   		from uc_car
+   		where
+   		]]> 
+				  				     
+		<![CDATA[    
+  		    rownum <= #{pageNum} * #{amount}   
+ 		    ) 
+ 			where rn > (#{pageNum} -1) * #{amount}		  	
+    		]]>  
+  	
+  	</select>
+  	
+  	<!-- 상품 총 개수 -->
+  	<select id="goodsGetTotal" resultType="int">
+  	
+  		select count(*) from uc_car
+  		
+<!--   		<if test="keyword != null"> -->
+  		
+<!--   			where num like '%' || #{keyword} || '%' -->
+<!--   		</if> -->
+  		
+  	</select>
+  	
+  	<!-- 상품 정보 -->
+	<select id="getGoodsInfo" resultType="com.example.domain.CarVO">
+	select 
+		(select cateName from uc_cate where uc_car.cop_name = uc_cate.cateCode) copName, 
+		(select cateName from uc_cate where uc_car.br_name = uc_cate.cateCode) brName, 
+		car_name, price, mileage, model_year, fuel_type, color,
+		region, number_p, owner, uc_text, seller, num, cop_name, br_name,
+		to_char(regdate, 'yyyy/mm/dd') as regdate1,
+		to_char(updatedate, 'yyyy/mm/dd') as updatedate1
+   		from uc_car 
+   		where num = ${num}
+	
+	</select>
+	
+	<!-- 상품 정보 수정 -->
+	<update id="goodsModify">
+		
+		update uc_car set cop_name = #{cop_name}, br_name = #{br_name}, car_name = #{car_name}, price = #{price}, mileage = ${mileage}, 
+		model_year = #{model_year}, fuel_type = #{fuel_type}, color = #{color}, region = #{region}, number_p = #{number_p}, 
+		owner = #{owner}, uc_text = #{uc_text}, updateDate = sysdate
+		where num = ${num}
+		
+	</update>
+	
+	<!-- 지정 상품 이미지 전체 삭제 --> 
+	<delete id="deleteImageAll">
+	
+		delete FROM uc_image where num = #{num}
+	
+	</delete>
+	
+	<!-- 상품 정보 삭제 -->
+	<delete id="goodsDelete">
+	
+		delete from uc_car where num = #{num}
+	
+	</delete>
+  	 	  	
+  	<!-- 카테고리 리스트 -->
+  	<select id="cateList" resultType="com.example.domain.CateVO">
+  	
+  		select * from uc_cate order by catecode
+  	
+  	</select> 
+  	
+  	<!-- 검색 기능 -->
+  	<select id="searchList" resultType="com.example.domain.CarVO">
+  	
+  		<![CDATA[			
+		select * from 
+		(select aa.*,rownum rn from
+		(select
+		(select cateName from uc_cate where uc_car.cop_name = uc_cate.cateCode) copName, 
+ 		(select cateName from uc_cate where uc_car.br_name = uc_cate.cateCode) brName,  
+		car_name, price, mileage, model_year, fuel_type, color, 
+		region, number_p, owner, uc_text, seller, num, 
+ 		to_char(regdate, 'yyyy/mm/dd') as regdate1, 
+ 		to_char(updatedate, 'yyyy/mm/dd') as updatedate1 
+		from uc_car
+   		]]> 
+  		 	<where>
+   				 <if test="car.cop_name != null and car.cop_name !='none'">
+        			 cop_name = #{car.cop_name}
+   				 </if> 
+    				 <if test="car.br_name != null and car.br_name !='none'"> 
+    				 and br_name = #{car.br_name} 
+   			     </if> 
+   				 <if test="car.color != null and car.color !=''">
+     			     and color = #{car.color}
+  				 </if>
+  				 <if test="car.region != null and car.region !=''">
+     			     and region = #{car.region}
+  				 </if>
+  				 <if test="car.fuel_type != null and car.fuel_type !=''">
+     			     and fuel_type = #{car.fuel_type}
+  				 </if>
+  				 <if test="car.mileage != null and car.mileage !=''">
+     			     and mileage <![CDATA[<=]]> #{car.mileage}
+  				 </if>
+  				 <if test="car.price_min != null and car.price_min !=0 and car.price_min !=''">
+     			     and price >= #{car.price_min}  
+  				 </if>
+  				 <if test="car.price_max != null and car.price_max !=0 and car.price_max !=''">
+  				  	 and price <![CDATA[<=]]> #{car.price_max}
+  				 </if>  			 	 
+  			</where>
+  			
+  			<![CDATA[
+  			) aa
+  			where    
+  		    rownum <= #{cri.pageNum} * #{cri.amount}   
+ 		    ) 
+ 			where rn > (#{cri.pageNum} -1) * #{cri.amount}		  	
+    		]]>  
+  			
+<!--   			<![CDATA[     -->
+<!--  		    rownum <= #{pageNum} * #{amount}   -->
+<!--  		    )  -->
+<!--  			where rn > (#{pageNum} -1) * #{amount}		  	 -->
+<!--    		]]>  -->
+   		
+	</select>
+  	
+
+	<!-- 검색 대상 카테고리 리스트 -->	
+	<select id="getCateList" resultType="String">
+	
+		select distinct br_name from uc_car 
+		where cop_name = #{cop_name} and br_name = #{br_name} and color = #{color} 
+		and region = #{region} and fuel_type = #{fuel_type}
+		and price = #{price} and mileage = #{mileage}
+	
+	</select>
+
+	<!-- 카테고리 정보(+검색대상 갯수) -->		
+	<select id="getCateInfo" resultType="com.example.domain.CateFilterVO">
+	
+		select DISTINCT count(*) cateCount, a.br_name,b.cateName 
+		from uc_car a left join uc_cate b on a.br_name = b.cateCode 
+		where (cop_name = #{cop_name or br_name = #{br_name or color = #{color or region = #{region
+		or fuel_type = #{fuel_type or price = #{price or mileage = #{mileage})
+		and a.br_name = #{br_name}
+	
+	</select>	
+</mapper>

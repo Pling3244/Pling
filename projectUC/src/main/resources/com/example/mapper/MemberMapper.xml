@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.example.mapper.MemberMapper">
+
+	<select id="getList" resultType="com.example.domain.MemberVO">
+	<![CDATA[
+		select * from uc_member
+	]]>
+	</select>
+	
+	<insert id="insert">
+		insert into
+			uc_member (id,m_name, password, gender,phone,region,email,author,report_num)
+		values
+			(#{id}, #{m_name}, #{password}, #{gender}, #{phone}, #{region}, #{email}, '회원', 0)
+	</insert>
+<!-- 	<insert id="insertSelectKey"> -->
+<!-- 		<selectKey keyProperty="bno" order="BEFORE" resultType="Long"> -->
+<!-- 			select seq_board.nextval from dual -->
+<!-- 		</selectKey> -->
+<!-- 		insert into -->
+<!-- 			tbl_board (bno,title,content,writer) -->
+<!-- 		values -->
+<!-- 			(#{bno}, #{title}, #{content}, #{writer}) -->
+<!-- 	</insert> -->
+
+	<!-- 로그인 -->
+	<select id="read" resultType="com.example.domain.MemberVO">
+		select * from uc_member where id = #{id} and password = #{password}
+	</select>
+	
+	<delete id="delete">
+		delete uc_member where id = #{id}
+	</delete>
+	<update id="update">
+		update
+			uc_member
+		set
+			m_name=#{m_name}, password=#{password}, gender=#{gender}, phone=#{phone}, region=#{region}, email=#{email}, author=#{author}, report_num=#{report_num}
+		where
+			id = #{id}
+	</update>
+	
+	<!-- 아이디 중복검사 -->
+  	<select id="idCheck" resultType="int">
+  	
+  		select count(*) from uc_member where id = #{id}
+  	
+  	</select>
+	
+<!-- 	<select id="getListWithPaging" resultType="com.example.domain.BoardVO"> -->
+<!-- 	<![CDATA[ -->
+	
+<!--  	]]>  -->
+<!-- 	</select> -->
+</mapper>

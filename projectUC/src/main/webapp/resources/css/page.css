@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+/* 페이지 버튼 인터페이스 */
+.pageMaker_wrap{
+	text-align: center;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+.pageMaker{
+    list-style: none;
+    display: inline-block;
+}	
+.pageMaker_btn {
+    float: left;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 20px;
+}
+.active{
+	border : 2px solid black;
+	font-weight:400;
+}
+.next, .prev {
+    border: 1px solid #ccc;
+    padding: 0 10px;
+}
+.pageMaker_btn a:link {color: black;}
+.pageMaker_btn a:visited {color: black;}
+.pageMaker_btn a:active {color: black;}
+.pageMaker_btn a:hover {color: black;}
+.next a, .prev a {
+    color: #ccc;
+}
